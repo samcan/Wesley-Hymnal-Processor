@@ -1,0 +1,27 @@
+%%NUMBER 283
+%%TITLE More Love to Thee
+%%LYRICIST Elizabeth Payson Prentis
+%%COMPOSER William Howard Doane
+%%TUNE More Love to Thee
+%%METER 10.10 with Refrain
+%%CATEGORY Consecration
+%%SCRIPTURE 1Jn 4:19
+%%TIMESIGNATURE 4/4
+%%SCALE 0.75
+%%STAFFSKIP 1.62cm
+%%BEGIN
+L: 1/4 % default length
+K: Ab % key signature
+%%staves (S1V1 S1V2) | (S2V1 S2V2) 
+V: S1V1 clef=treble 
+V: S1V2 
+V: S2V1 clef=bass 
+V: S2V2 
+% 1
+[V: S1V1] E2 F E | A3/2 B/ c2 | c2 B A | B3 z | E2 F E |
+w: 1.~More love to Thee, O Christ; More love to Thee; Hear Thou the
+w: 2.~Once earth- ly joy I craved, Sought peace and rest; Now thee a-
+w: 3.~Then shall my lat- est breath, Whis- per Thy praise, This be the
+[V: S1V2] C2 D C | E3/2 E/ E2 | E2 E =D | E3 x | C2 D C |
+[V: S2V1] A,2 A, A, | A,3/2 G,/ A,2 | A,2 B, B, | G,3 z | A,2 A, A, |
+[V: S2V2] A,,2 A,, A,, | C,3/2 E,/ A,2 | A,2 G, F, | E,3 x | A,2 A, A, |

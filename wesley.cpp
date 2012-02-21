@@ -7,6 +7,8 @@
 
 using namespace std;
 
+int processHymn(string hymnFileName, string outputFileName);
+
 int main(int argc, char* argv[])
 {
 	//if (argc != 2) {
@@ -14,11 +16,53 @@ int main(int argc, char* argv[])
 	//	return 1;
 	//}
 
-	char hymnFileName[999];
+	ifstream hymnalData;
+	char hymnalFileName[999];
+	char outputFileName[999];
+	
+	string hymnFileName;
+
+	//cout << "Please enter hymn file name: ";
+	//cin >> hymnFileName;
+
+	// hymnFileName = argv[1];
+
+	cout << "Please enter hymnal file name: ";
+	cin >> hymnalFileName;
+	
+	cout << "Please enter the output file name: ";
+	cin >> outputFileName;
+	
+	// Attempt to open hymnal data file
+	hymnalData.open(hymnalFileName);
+	if (!hymnalData)
+	{
+		// File not found or successfully opened, abort.
+		cout << "Error: " << hymnalFileName << " not found." << endl;
+		return 1;
+	}
+	
+	// Now begin parsing the file
+	// Right now hymns aren't sorted by their numbers, but rather inserted
+	// in the order they are listed in the WHY (Wesley HYmnal) file. This
+	// means that the user has to order them correctly.
+	while(getline(hymnalData, hymnFileName))
+	{
+		int successful = processHymn(hymnFileName, outputFileName);
+	}
+	
+	// Close hymnal input file, as we're done
+	hymnalData.close();
+		
+	return 0;
+}
+
+int processHymn(string hymnFileName, string outputFileName)
+{
+	string data;
+	
 	ifstream hymnData;
 	ofstream outputData;
-
-	string data;
 
 	// Information fields for hymn
 	// Would this work better as a struct?
@@ -39,13 +83,10 @@ int main(int argc, char* argv[])
 	int no = 0;
 	float scale = 0.00;
 	// End of declaring information fields
-
-	cout << "Please enter hymn file name: ";
-	cin >> hymnFileName;
-
-	// hymnFileName = argv[1];
-
-	hymnData.open(hymnFileName);
+	
+	
+	// Open hymn file passed in
+	hymnData.open(hymnFileName.c_str());
 	if (!hymnData)
 	{
 		// File not found or opened successfully, abort.
@@ -120,7 +161,6 @@ int main(int argc, char* argv[])
 				char line[300];
 				hymnData.getline(line, 300, '\n');
 				if (line != "") {
-					cout << line << endl;
 					abcData = abcData + line + "\n";
 				}
 			}
@@ -148,7 +188,10 @@ int main(int argc, char* argv[])
 	hymnData.close();
 
 	// Create output
-	outputData.open("output.abc");
+	// As we're appending, any existing files will have this
+	// data tacked on. We should probably eventually check to
+	// see if the output file exists first.
+	outputData.open(outputFileName.c_str(), ios::out | ios::app);
 	
 	// Create format information such as scale and staff skip amounts
 	if (scale != 0) {
@@ -171,9 +214,9 @@ int main(int argc, char* argv[])
 
 	// Send the actual ABC data
 	outputData << abcData << endl;
+	outputData << endl << endl;
 	
 	// Close output file
 	outputData.close();
-	
 	return 0;
 }
