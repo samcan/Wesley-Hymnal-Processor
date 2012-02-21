@@ -1,0 +1,11 @@
+Wesley Hymnal Processor is a program designed to allow
+for the easy creation of church hymnals using the ABC
+music typesetting language. Hymns are input into files
+using Wesley's special notation, a format file is
+created specifying how Wesley should format the hymns,
+and a file is created listing all the hymns Wesley should
+operate on.
+
+Wesley is currently in pre-pre-pre-ALPHA stages. We are
+currently working on documentation and development as
+we go. It is not recommended to use Wesley at this time.
