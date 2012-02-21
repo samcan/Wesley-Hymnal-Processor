@@ -8,6 +8,7 @@
 using namespace std;
 
 int processHymn(string hymnFileName, string outputFileName);
+int insertNewPage(string outputFileName);
 
 int main(int argc, char* argv[])
 {
@@ -20,7 +21,7 @@ int main(int argc, char* argv[])
 	char hymnalFileName[999];
 	char outputFileName[999];
 	
-	string hymnFileName;
+	string lineOfData;
 
 	//cout << "Please enter hymn file name: ";
 	//cin >> hymnFileName;
@@ -46,9 +47,23 @@ int main(int argc, char* argv[])
 	// Right now hymns aren't sorted by their numbers, but rather inserted
 	// in the order they are listed in the WHY (Wesley HYmnal) file. This
 	// means that the user has to order them correctly.
-	while(getline(hymnalData, hymnFileName))
+	while(getline(hymnalData, lineOfData))
 	{
-		int successful = processHymn(hymnFileName, outputFileName);
+		// Get each line of data from hymnal file. Right now, that
+		// should only be either a %%NEWPAGE code or a hymn file name.
+		
+		// Check for %%NEWPAGE code
+		if (lineOfData == "%%NEWPAGE")
+		{
+			insertNewPage(outputFileName);
+		}
+		else
+		{
+			// Must be a hymn file name
+			
+			// TODO: Check to see if hymn was aborted
+			int successful = processHymn(lineOfData, outputFileName);
+		}
 	}
 	
 	// Close hymnal input file, as we're done
@@ -218,5 +233,20 @@ int processHymn(string hymnFileName, string outputFileName)
 	
 	// Close output file
 	outputData.close();
+	return 0;
+}
+
+int insertNewPage(string outputFileName)
+{
+	// This function inserts a new page command
+	ofstream outputData;
+	
+	outputData.open(outputFileName.c_str(), ios::out | ios::app);
+	outputData << endl << endl;
+	outputData << "%%newpage" << endl;
+	outputData << endl << endl;
+	
+	outputData.close();
+	
 	return 0;
 }
