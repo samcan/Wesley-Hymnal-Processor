@@ -44,6 +44,7 @@ int main(int argc, char* argv[])
 	// output file option is given without file name
 	po::options_description desc("Usage");
 	desc.add_options()
+		("version,v", "Print version")
 		("help", "Show help message")
 		("input-file", po::value<string>(), "Wesley HYmnal input file")
 		("output-file,o", po::value<string>(), "ABC output file")
@@ -56,8 +57,17 @@ int main(int argc, char* argv[])
 	po::store(po::command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
 	po::notify(vm);
 
-	if (vm.count("help") || argc <= 1) {
+	if (vm.count("help") || argc <= 1)
+	{
+		// Display usage options
 		cout << desc << endl;
+		return EXIT_SUCCESS;
+	}
+
+	if (vm.count("version"))
+	{
+		// Eventually print version string here
+		cout << "Wesley" << endl;
 		return EXIT_SUCCESS;
 	}
 
