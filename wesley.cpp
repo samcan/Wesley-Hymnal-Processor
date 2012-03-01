@@ -84,8 +84,6 @@ int main(int argc, char* argv[])
 		else
 		{
 			// Must be a hymn file name
-
-			// TODO: Check to see if hymn was aborted
 			if (processHymn(lineOfData, outputFileName) != 0)
 			{
 				// There was an error processing this hymn
