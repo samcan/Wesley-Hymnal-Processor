@@ -10,8 +10,10 @@ Wesley is currently in pre-pre-pre-ALPHA stages. We are
 currently working on documentation and development as
 we go. It is not recommended to use Wesley at this time.
 
-Wesley has no real dependencies at this time. To compile,
+Wesley needs the Boost libraries to compile. To compile,
 download the source code, switch into the directory and
 run:
 
 make
+
+We will add autoconf support later.

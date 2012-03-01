@@ -4,8 +4,13 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <boost/algorithm/string.hpp>
 
 using namespace std;
+using namespace boost::algorithm;
+
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1
 
 // FUNCTIONS
 // Display usage options for program.
@@ -36,7 +41,7 @@ int main(int argc, char* argv[])
 	// Check for number of arguments
 	if (argc < 4) {
 		usage();
-		return 1;
+		return EXIT_FAILURE;
 	}
 	else {
 		// TODO: Insert true command line processing
@@ -50,7 +55,7 @@ int main(int argc, char* argv[])
 	{
 		// File not found or successfully opened, abort.
 		cout << "Error: " << hymnalFileName << " not found." << endl;
-		return 1;
+		return EXIT_FAILURE;
 	}
 
 	// Check to see if the file listed for output already
@@ -59,7 +64,7 @@ int main(int argc, char* argv[])
 	{
 		// File found, so abort.
 		cout << "Error: Output file already exists." << endl;
-		return 1;
+		return EXIT_FAILURE;
 	}
 
 	// Now begin parsing the file
@@ -74,20 +79,20 @@ int main(int argc, char* argv[])
 		// Check for %%NEWPAGE code
 		if (lineOfData == "%%NEWPAGE")
 		{
-			if (insertNewPage(outputFileName) != 0)
+			if (insertNewPage(outputFileName) != EXIT_SUCCESS)
 			{
 				// Returned with error condition
 				cout << "Error: Unable to open " << outputFileName << endl;
-				return 1;
+				return EXIT_FAILURE;
 			}
 		}
 		else
 		{
 			// Must be a hymn file name
-			if (processHymn(lineOfData, outputFileName) != 0)
+			if (processHymn(lineOfData, outputFileName) != EXIT_SUCCESS)
 			{
 				// There was an error processing this hymn
-				return 1;
+				return EXIT_FAILURE;
 			}
 		}
 	}
@@ -95,7 +100,7 @@ int main(int argc, char* argv[])
 	// Close hymnal input file, as we're done
 	hymnalData.close();
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 int processHymn(string hymnFileName, string outputFileName)
@@ -107,9 +112,9 @@ int processHymn(string hymnFileName, string outputFileName)
 
 	// Information fields for hymn
 	// Would this work better as a struct?
-	char title[100];
-	char composer[100];
-	char lyricist[100];
+	string title;
+	string composer;
+	string lyricist;
 	string meter;
 	string tune = "Unknown";
 	string time;
@@ -135,7 +140,7 @@ int processHymn(string hymnFileName, string outputFileName)
 		// know which specific hymn caused the program
 		// failure.
 		cout << "Error: " << hymnFileName << " not opened successfully." << endl;
-		return 1;
+		return EXIT_FAILURE;
 	}
 
 	// Notify user that hymn was opened successfully.
@@ -150,15 +155,27 @@ int processHymn(string hymnFileName, string outputFileName)
 		}
 		else if (data == "%%TITLE")
 		{
-			hymnData.getline(title, 99, '\n');
+			char tempData[99];
+			hymnData.getline(tempData, 99, '\n');
+
+			title = tempData;
+			trim(title);
 		}
 		else if (data == "%%COMPOSER")
 		{
-			hymnData.getline(composer, 99, '\n');
+			char tempData[99];
+			hymnData.getline(tempData, 99, '\n');
+
+			composer = tempData;
+			trim(composer);
 		}
 		else if (data == "%%LYRICIST")
 		{
-			hymnData.getline(lyricist, 99, '\n');
+			char tempData[99];
+			hymnData.getline(tempData, 99, '\n');
+
+			lyricist = tempData;
+			trim(lyricist);
 		}
 		else if (data == "%%METER")
 		{
@@ -244,7 +261,7 @@ int processHymn(string hymnFileName, string outputFileName)
 	{
 		// Output file not successfully opened; abort.
 		cout << "Error: Output file not successfully opened." << endl;
-		return 1;
+		return EXIT_FAILURE;
 	}
 
 	// Create format information such as scale and staff skip amounts
@@ -272,7 +289,7 @@ int processHymn(string hymnFileName, string outputFileName)
 
 	// Close output file
 	outputData.close();
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 int insertNewPage(string outputFileName)
@@ -291,9 +308,9 @@ int insertNewPage(string outputFileName)
 	}
 	else {
 		// File not successfully opened
-		return 1;
+		return EXIT_FAILURE;
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 void usage()
