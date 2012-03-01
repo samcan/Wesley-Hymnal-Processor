@@ -27,8 +27,8 @@ int processHymn(string hymnFileName, string outputFileName);
 int insertNewPage(string outputFileName);
 
 // GLOBAL VARIABLES
-bool force = false;
-bool quiet = false;
+bool force = false;	// Force overwrite of existing output file
+bool quiet = false;	// Quiet output
 
 // PROGRAM BEGINS HERE
 int main(int argc, char* argv[])
