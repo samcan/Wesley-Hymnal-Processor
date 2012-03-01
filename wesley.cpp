@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 	string outputFileName;
 	// File handle for input file
 	ifstream hymnalData;
-	// Variable for grabbing a line of data from the input file
+	// Variable for grabbing a line of data from the hymnal input file
 	// to process
 	string lineOfData;
 
@@ -71,14 +71,23 @@ int main(int argc, char* argv[])
 		// Check for %%NEWPAGE code
 		if (lineOfData == "%%NEWPAGE")
 		{
-			insertNewPage(outputFileName);
+			if (insertNewPage(outputFileName) != 0)
+			{
+				// Returned with error condition
+				cout << "Error: Unable to open " << outputFileName << endl;
+				return 1;
+			}
 		}
 		else
 		{
 			// Must be a hymn file name
 
 			// TODO: Check to see if hymn was aborted
-			int successful = processHymn(lineOfData, outputFileName);
+			if (processHymn(lineOfData, outputFileName) != 0)
+			{
+				// There was an error processing this hymn
+				return 1;
+			}
 		}
 	}
 
@@ -121,11 +130,10 @@ int processHymn(string hymnFileName, string outputFileName)
 	if (!hymnData)
 	{
 		// File not found or opened successfully, abort.
-		// We print the hymn file name involved as this will
-		// eventually be used in a batch process where hundreds of
-		// files will be processed, and the user will want to know
-		// which file was not found.
-		cout << "Error: " << hymnFileName << " not found." << endl;
+		// We print the filename so that the user may
+		// know which specific hymn caused the program
+		// failure.
+		cout << "Error: " << hymnFileName << " not opened successfully." << endl;
 		return 1;
 	}
 
@@ -201,7 +209,7 @@ int processHymn(string hymnFileName, string outputFileName)
 
 	// While the following is useful for verification, and may prove
 	// useful in some other fashion, disable for now.
-	/* 
+	/*
 	cout << "Number: " << no << endl;
 	cout << "Title: " << title << endl;
 	cout << "Lyricist: " << lyricist << endl;
@@ -220,6 +228,13 @@ int processHymn(string hymnFileName, string outputFileName)
 
 	// Create output
 	outputData.open(outputFileName.c_str(), ios::out | ios::app);
+
+	if (!outputData)
+	{
+		// Output file not successfully opened; abort.
+		cout << "Error: Output file not successfully opened." << endl;
+		return 1;
+	}
 
 	// Create format information such as scale and staff skip amounts
 	if (scale != 0) {
@@ -264,7 +279,7 @@ int insertNewPage(string outputFileName)
 		outputData.close();
 	}
 	else {
-		cout << "Error: Unable to open " << outputFileName << endl;
+		// File not successfully opened
 		return 1;
 	}
 	return 0;
