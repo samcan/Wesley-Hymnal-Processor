@@ -8,13 +8,16 @@
 using namespace std;
 
 // FUNCTIONS
-void usage();							// Display usage options for program.
-bool fileExists(const string fileName);				// Check to see if given file exists
-int processHymn(string hymnFileName, string outputFileName);	// Open hymn file and process it, adding
-								// it to the output, and then closing it.
-int insertNewPage(string outputFileName);			// Open output, insert page break, and then
-								// close output file.
-
+// Display usage options for program.
+void usage();
+// Check to see if given file exists.
+bool fileExists(const string fileName);
+// Open hymn file and process it, adding it to the output,
+// and then closing it.
+int processHymn(string hymnFileName, string outputFileName);
+// Open output, insert page break, and then close output
+// file.
+int insertNewPage(string outputFileName);
 
 // PROGRAM BEGINS HERE
 int main(int argc, char* argv[])
