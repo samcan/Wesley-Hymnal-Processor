@@ -40,11 +40,13 @@ int main(int argc, char* argv[])
 
 	// Check for number of arguments
 	if (argc < 4) {
+		// Display usage help for program
 		usage();
 		return EXIT_FAILURE;
 	}
 	else {
 		// TODO: Insert true command line processing
+		// I plan to use the Boost libraries to achieve this.
 		hymnalFileName = argv[1];
 		outputFileName = argv[3];
 	}
@@ -105,6 +107,7 @@ int main(int argc, char* argv[])
 
 int processHymn(string hymnFileName, string outputFileName)
 {
+	// Var for holding data pulled in from file
 	string data;
 
 	ifstream hymnData;
@@ -128,6 +131,7 @@ int processHymn(string hymnFileName, string outputFileName)
 	string staffSkip;
 	int no = 0;
 	float scale = 0.00;
+	bool titleTrim = true;
 	// End of declaring information fields
 
 
@@ -215,6 +219,11 @@ int processHymn(string hymnFileName, string outputFileName)
 		{
 			hymnData >> staffSkip;
 		}
+		else if (data == "%%NOTITLETRIM")
+		{
+			// Disable title trim
+			titleTrim = false;
+		}
 		else if (data == "%%BEGIN")
 		{
 			// This was a little finicky. I wasn't sure how to abort
@@ -272,6 +281,8 @@ int processHymn(string hymnFileName, string outputFileName)
 	if (staffSkip != "") {
 		outputData << "%%staffskip " << staffSkip << endl;
 	}
+
+	outputData << "%%titletrim " << (titleTrim ? "true" : "false") << endl;
 
 	// Put in the footer format; TODO: Add header info
 	outputData << "%%footer \" 		" << tune << "\\n		" << meter << "\"" << endl;
