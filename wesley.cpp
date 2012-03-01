@@ -2,6 +2,7 @@
 // Copyright 2012 by Sam Cantrell
 
 #include <iostream>
+#include <stdio.h>
 #include <string>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
@@ -26,6 +27,7 @@ int processHymn(string hymnFileName, string outputFileName);
 int insertNewPage(string outputFileName);
 
 // GLOBAL VARIABLES
+bool force = false;
 bool quiet = false;
 
 // PROGRAM BEGINS HERE
@@ -48,6 +50,7 @@ int main(int argc, char* argv[])
 	po::options_description desc("Usage");
 	desc.add_options()
 		("version,v", "Print version")
+		("force,f", "Force overwrite of output file if existing")
 		("quiet", "Quiet output from program")
 		("help", "Show help message")
 		("input-file", po::value<string>(), "Wesley HYmnal input file")
@@ -81,6 +84,12 @@ int main(int argc, char* argv[])
 		quiet = true;
 	}
 
+	if (vm.count("force"))
+	{
+		// Force overwrite of output file if existing
+		force = true;
+	}
+
 	if (vm.count("input-file"))
 	{
 		hymnalFileName = vm["input-file"].as<string>();
@@ -107,12 +116,21 @@ int main(int argc, char* argv[])
 	}
 
 	// Check to see if the file listed for output already
-	// exists. If it does, abort.
+	// exists.
 	if (fileExists(outputFileName) == true)
 	{
-		// File found, so abort.
-		cout << "Error: Output file already exists." << endl;
-		return EXIT_FAILURE;
+		// File found, check to see if force flag is set
+		if (!force)
+		{
+			// Force flag not set, so abort
+			cout << "Error: Output file already exists." << endl;
+			return EXIT_FAILURE;
+		}
+		else
+		{
+			// Force flag set, so delete file
+			remove(outputFileName.c_str());
+		}
 	}
 
 	// Now begin parsing the file
