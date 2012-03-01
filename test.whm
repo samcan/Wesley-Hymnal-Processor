@@ -1,27 +1,52 @@
-%%NUMBER 473
-%%TITLE More Love to Thee
-%%LYRICIST Elizabeth Payson Prentis
-%%COMPOSER William Howard Doane
-%%TUNE More Love to Thee
-%%METER 10.10 with Refrain
-%%CATEGORY Consecration
-%%SCRIPTURE 1Jn 4:19
-%%TIMESIGNATURE 4/4
+% Source is Northfield Hymnal, 1904, #184
+
+%%NUMBER 1
+%%TITLE Close to Thee
+%%COMPOSER Silas J. Vail
+%%LYRICIST Fanny J. Crosby, 1874.
+%%TUNE Unknown
+%%METER 8.7.8.7 with Refrain
 %%SCALE 0.75
 %%STAFFSKIP 1.62cm
+%%CATEGORY
+%%SCRIPTURE
+%%TIMESIGNATURE 3/4
 %%BEGIN
-L: 1/4 % default length
-K: Ab % key signature
+L: 1/8 % default length
 %%staves (S1V1 S1V2) | (S2V1 S2V2) 
 V: S1V1 clef=treble 
 V: S1V2 
 V: S2V1 clef=bass 
 V: S2V2 
+K: G % key signature
+%
 % 1
-[V: S1V1] E2 F E | A3/2 B/ c2 | c2 B A | B3 z | E2 F E |
-w: 1.~More love to Thee, O Christ; More love to Thee; Hear Thou the
-w: 2.~Once earth- ly joy I craved, Sought peace and rest; Now thee a-
-w: 3.~Then shall my lat- est breath, Whis- per Thy praise, This be the
-[V: S1V2] C2 D C | E3/2 E/ E2 | E2 E =D | E3 x | C2 D C |
-[V: S2V1] A,2 A, A, | A,3/2 G,/ A,2 | A,2 B, B, | G,3 z | A,2 A, A, |
-[V: S2V2] A,,2 A,, A,, | C,3/2 E,/ A,2 | A,2 G, F, | E,3 x | A,2 A, A, |
+[V: S1V1] [Q:1/4=95] D3/2 G/ | B3 G F3/2 A/ | G2 D2 G3/2 B/ | d3 B G3/2 B/ | A4
+w: 1.~Thou, my ev- er- last- ing por- tion, More than friend or life to me,
+w: 2.~Not for ease or world- ly pleas- ure, Nor for fame my pray'r shall be;
+w: 3.~Lead me thro' the vale of shad- ows, Bear me o'er life's fit- ful sea:
+[V: S1V2] D3/2 D/ | G3 D D3/2 D/ | D2 D2 D3/2 D/ | G3 G G3/2 G/ | F4
+[V: S2V1] B,3/2 B,/ | D3 B, A,3/2 C/ | B,2 B,2 B,3/2 B,/ | B,3 D D3/2 D/ | D4
+[V: S2V2] G,3/2 G,/ | G,3 G, D,3/2 D,/ | G,2 G,2 G,3/2 G,/ | G,3 G, B,3/2 G,/ | D,4
+% 4c
+[V: S1V1] D3/2 G/ | B3 B B3/2 d/ | d2 c2 B3/2 A/ | G3 B B3/2 A/ | G4
+w: All a- long my pil- grim jour- ney, Sav- ior, let me walk with Thee.
+w: Glad- ly will I toil and suf- fer, On- ly let me walk with Thee.
+w: Then the gate of life e- ter- nal, May I en- ter, Lord, with Thee.
+[V: S1V2] D3/2 D/ | G3 G G3/2 =F/ | E2 E2 E3/2 E/ | D3 G F3/2 F/ | G4
+[V: S2V1] B,3/2 B,/ | D3 D D3/2 G,/ | G,2 G,2 G,3/2 A,/ | B,3 D D3/2 C/ | B,4
+[V: S2V2] G,3/2 G,/ | G,3 G, G,3/2 B,,/ | C,2 C,2 C,3/2 C,/ | D,3 D, D,3/2 D,/ | G,,4
+% 8c
+[V: S1V1] [P:Refrain] F3/2 G/ | A4 c3/2 F/ | G4 B3/2 c/ | d4 d3/2 B/ | A4
+w: Close to Thee, close to Thee, Close to Thee, close to Thee;
+[V: S1V2] D3/2 D/ | F4 F3/2 D/ | D4 G3/2 A/ | B4 B3/2 G/ | F4
+[V: S2V1] A,3/2 B,/ | C4 A,3/2 C/ | B,4 D3/2 D/ | D4 D3/2 D/ | D4
+[V: S2V2] D,3/2 D,/ | D,4 D,3/2 D,/ | G,4 G,3/2 G,/ | G,4 G,3/2 G,/ | D,4
+% 12c
+[V: S1V1] !sintro!D3/2 G/ | B3 B B3/2 d/ | d2 c2 B3/2 A/ | G3 B B3/2 A/ | G4 !eintro!|]
+w: All a- long my pil- grim jour- ney, Sav- ior, let me walk with Thee.
+w: Glad- ly will I toil and suf- fer, On- ly let me walk with Thee.
+w: Then the gate of life e- ter- nal, May I en- ter, Lord, with Thee.
+[V: S1V2] D3/2 D/ | G3 G G3/2 =F/ | E2 E2 E3/2 E/ | D3 G F3/2 F/ | G4 |]
+[V: S2V1] B,3/2 B,/ | D3 D D3/2 G,/ | G,2 G,2 G,3/2 A,/ | B,3 D D3/2 C/ | B,4 |]
+[V: S2V2] G,3/2 G,/ | G,3 G, G,3/2 B,,/ | C,2 C,2 C,3/2 C,/ | D,3 D, D,3/2 D,/ | G,,4 |]

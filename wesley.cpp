@@ -166,7 +166,12 @@ int processHymn(string hymnFileName, string outputFileName)
 			hymnData.getline(tempData, 99, '\n');
 
 			meter = tempData;
-			meter = meter.substr(0, meter.length() - 1);
+			// Check for DOS-style line ending and
+			// remove if found.
+			if (meter[meter.length() - 1] == '\r')
+			{
+				meter = meter.substr(0, meter.length() - 1);
+			}
 		}
 		else if (data == "%%TUNE")
 		{
@@ -174,7 +179,12 @@ int processHymn(string hymnFileName, string outputFileName)
 			hymnData.getline(tempData, 99, '\n');
 
 			tune = tempData;
-			tune = tune.substr(0, tune.length() - 1);
+			// Check for DOS-style line ending and
+			// remove if found.
+			if (tune[tune.length() - 1] == '\r')
+			{
+				tune = tune.substr(0, tune.length() - 1);
+			}
 		}
 		else if (data == "%%TIMESIGNATURE")
 		{
