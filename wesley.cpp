@@ -255,12 +255,18 @@ int insertNewPage(string outputFileName)
 	ofstream outputData;
 
 	outputData.open(outputFileName.c_str(), ios::out | ios::app);
-	outputData << endl << endl;
-	outputData << "%%newpage" << endl;
-	outputData << endl << endl;
+	if (outputData)
+	{
+		outputData << endl << endl;
+		outputData << "%%newpage" << endl;
+		outputData << endl << endl;
 
-	outputData.close();
-
+		outputData.close();
+	}
+	else {
+		cout << "Error: Unable to open " << outputFileName << endl;
+		return 1;
+	}
 	return 0;
 }
 
@@ -273,6 +279,8 @@ void usage()
 
 bool fileExists(const string fileName)
 {
+	// Return true if fileName exists, otherwise
+	// return false.
 	ifstream ifile(fileName.c_str());
 	return ifile;
 }
