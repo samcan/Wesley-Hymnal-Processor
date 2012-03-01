@@ -219,9 +219,6 @@ int processHymn(string hymnFileName, string outputFileName)
 	hymnData.close();
 
 	// Create output
-	// As we're appending, any existing files will have this
-	// data tacked on. We should probably eventually check to
-	// see if the output file exists first.
 	outputData.open(outputFileName.c_str(), ios::out | ios::app);
 
 	// Create format information such as scale and staff skip amounts
