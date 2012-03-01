@@ -13,6 +13,10 @@ void usage();
 
 int main(int argc, char* argv[])
 {
+	string hymnalFileName;
+	string outputFileName;
+	ifstream hymnalData;
+
 	if (argc < 4) {
 		usage();
 		return 1;
@@ -20,11 +24,8 @@ int main(int argc, char* argv[])
 	else {
 		// TODO: Insert true command line processing
 		hymnalFileName = argv[1];
+		outputFileName = argv[3];
 	}
-
-	ifstream hymnalData;
-	char hymnalFileName[999];
-	char outputFileName[999];
 
 	string lineOfData;
 
@@ -33,11 +34,11 @@ int main(int argc, char* argv[])
 
 	// hymnFileName = argv[1];
 
-	cout << "Please enter the output file name: ";
-	cin >> outputFileName;
+	//cout << "Please enter the output file name: ";
+	//cin >> outputFileName;
 
 	// Attempt to open hymnal data file
-	hymnalData.open(hymnalFileName);
+	hymnalData.open(hymnalFileName.c_str());
 	if (!hymnalData)
 	{
 		// File not found or successfully opened, abort.
