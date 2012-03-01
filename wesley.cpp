@@ -7,6 +7,7 @@
 
 using namespace std;
 
+bool fileExists(const string fileName);
 int processHymn(string hymnFileName, string outputFileName);
 int insertNewPage(string outputFileName);
 void usage();
@@ -43,6 +44,15 @@ int main(int argc, char* argv[])
 	{
 		// File not found or successfully opened, abort.
 		cout << "Error: " << hymnalFileName << " not found." << endl;
+		return 1;
+	}
+
+	// Check to see if the file listed for output already
+	// exists. If it does, abort.
+	if (fileExists(outputFileName) == true)
+	{
+		// File found, so abort.
+		cout << "Error: Output file already exists." << endl;
 		return 1;
 	}
 
@@ -259,4 +269,10 @@ void usage()
 	// Displays information on how to run the program.
 	cout << "USAGE: wesley FILE -o OUTPUTFILE" << endl;
 	cout << "Process the Wesley Hymnal FILE to create ABC file OUTPUTFILE." << endl;
+}
+
+bool fileExists(const string fileName)
+{
+	ifstream ifile(fileName.c_str());
+	return ifile;
 }
