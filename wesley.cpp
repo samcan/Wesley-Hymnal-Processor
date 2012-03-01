@@ -5,16 +5,17 @@
 #include <string>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
+#include <boost/program_options.hpp>
+#include <iterator>
 
 using namespace std;
 using namespace boost::algorithm;
+namespace po = boost::program_options;
 
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 
 // FUNCTIONS
-// Display usage options for program.
-void usage();
 // Check to see if given file exists.
 bool fileExists(const string fileName);
 // Open hymn file and process it, adding it to the output,
@@ -38,17 +39,42 @@ int main(int argc, char* argv[])
 	// to process
 	string lineOfData;
 
-	// Check for number of arguments
-	if (argc < 4) {
-		// Display usage help for program
-		usage();
-		return EXIT_FAILURE;
+	// Parse command line arguments
+	// TODO: Write error handling code for when
+	// output file option is given without file name
+	po::options_description desc("Usage");
+	desc.add_options()
+		("help", "Show help message")
+		("input-file", po::value<string>(), "Wesley HYmnal input file")
+		("output-file,o", po::value<string>(), "ABC output file")
+	;
+
+	po::positional_options_description p;
+	p.add("input-file", 1);
+
+	po::variables_map vm;
+	po::store(po::command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
+	po::notify(vm);
+
+	if (vm.count("help") || argc <= 1) {
+		cout << desc << endl;
+		return EXIT_SUCCESS;
 	}
-	else {
-		// TODO: Insert true command line processing
-		// I plan to use the Boost libraries to achieve this.
-		hymnalFileName = argv[1];
-		outputFileName = argv[3];
+
+	if (vm.count("input-file"))
+	{
+		hymnalFileName = vm["input-file"].as<string>();
+	}
+
+	if (vm.count("output-file"))
+	{
+		outputFileName = vm["output-file"].as<string>();
+	}
+	else
+	{
+		// No output file provided, so give it Out.abc
+		// for now
+		outputFileName = "Out.abc";
 	}
 
 	// Attempt to open hymnal data file
@@ -315,13 +341,6 @@ int insertNewPage(string outputFileName)
 		return EXIT_FAILURE;
 	}
 	return EXIT_SUCCESS;
-}
-
-void usage()
-{
-	// Displays information on how to run the program.
-	cout << "USAGE: wesley FILE -o OUTPUTFILE" << endl;
-	cout << "Process the Wesley Hymnal FILE to create ABC file OUTPUTFILE." << endl;
 }
 
 bool fileExists(const string fileName)
