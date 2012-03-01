@@ -7,17 +7,30 @@
 
 using namespace std;
 
-bool fileExists(const string fileName);
-int processHymn(string hymnFileName, string outputFileName);
-int insertNewPage(string outputFileName);
-void usage();
+// FUNCTIONS
+void usage();							// Display usage options for program.
+bool fileExists(const string fileName);				// Check to see if given file exists
+int processHymn(string hymnFileName, string outputFileName);	// Open hymn file and process it, adding
+								// it to the output, and then closing it.
+int insertNewPage(string outputFileName);			// Open output, insert page break, and then
+								// close output file.
 
+
+// PROGRAM BEGINS HERE
 int main(int argc, char* argv[])
 {
+	// VARIABLE DECLARATION
+	// Variable for the input hymnal file name
 	string hymnalFileName;
+	// Variable for the output ABC file name
 	string outputFileName;
+	// File handle for input file
 	ifstream hymnalData;
+	// Variable for grabbing a line of data from the input file
+	// to process
+	string lineOfData;
 
+	// Check for number of arguments
 	if (argc < 4) {
 		usage();
 		return 1;
@@ -27,16 +40,6 @@ int main(int argc, char* argv[])
 		hymnalFileName = argv[1];
 		outputFileName = argv[3];
 	}
-
-	string lineOfData;
-
-	//cout << "Please enter hymn file name: ";
-	//cin >> hymnFileName;
-
-	// hymnFileName = argv[1];
-
-	//cout << "Please enter the output file name: ";
-	//cin >> outputFileName;
 
 	// Attempt to open hymnal data file
 	hymnalData.open(hymnalFileName.c_str());
