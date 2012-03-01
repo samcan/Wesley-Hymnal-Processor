@@ -119,11 +119,12 @@ int processHymn(string hymnFileName, string outputFileName)
 	string composer;
 	string lyricist;
 	string meter;
-	string tune = "Unknown";
+	string tune;
 	string time;
 
-	// TODO: Presently category and scripture are not loaded.
 	string category;
+
+	// TODO: Presently scripture is not loaded.
 	string scripture;
 
 	string abcData;
@@ -207,6 +208,14 @@ int processHymn(string hymnFileName, string outputFileName)
 				tune = tune.substr(0, tune.length() - 1);
 			}
 		}
+		else if (data == "%%CATEGORY")
+		{
+			char tempData[100];
+			hymnData.getline(tempData, 99, '\n');
+
+			category = tempData;
+			trim(category);
+		}
 		else if (data == "%%TIMESIGNATURE")
 		{
 			hymnData >> time;
@@ -243,22 +252,6 @@ int processHymn(string hymnFileName, string outputFileName)
 		}
 		hymnData >> data;
 	}
-
-	// While the following is useful for verification, and may prove
-	// useful in some other fashion, disable for now.
-	/*
-	cout << "Number: " << no << endl;
-	cout << "Title: " << title << endl;
-	cout << "Lyricist: " << lyricist << endl;
-	cout << "Composer: " << composer << endl;
-	cout << "Tune: " << tune << endl;
-	cout << "Meter: " << meter << endl;
-	cout << "Category: " << category << endl;
-	cout << "Scripture: " << scripture << endl;
-	cout << "Time Signature: " << time << endl;
-	cout << "Scale: " << scale << endl;
-	cout << "Staff skip: " << staffSkip << endl;
-	*/
 
 	// Close hymn file
 	hymnData.close();
