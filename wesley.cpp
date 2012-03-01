@@ -9,18 +9,23 @@ using namespace std;
 
 int processHymn(string hymnFileName, string outputFileName);
 int insertNewPage(string outputFileName);
+void usage();
 
 int main(int argc, char* argv[])
 {
-	//if (argc != 2) {
-	//	std::cout << "Incorrect number of arguments." << endl;
-	//	return 1;
-	//}
+	if (argc < 4) {
+		usage();
+		return 1;
+	}
+	else {
+		// TODO: Insert true command line processing
+		hymnalFileName = argv[1];
+	}
 
 	ifstream hymnalData;
 	char hymnalFileName[999];
 	char outputFileName[999];
-	
+
 	string lineOfData;
 
 	//cout << "Please enter hymn file name: ";
@@ -28,12 +33,9 @@ int main(int argc, char* argv[])
 
 	// hymnFileName = argv[1];
 
-	cout << "Please enter hymnal file name: ";
-	cin >> hymnalFileName;
-	
 	cout << "Please enter the output file name: ";
 	cin >> outputFileName;
-	
+
 	// Attempt to open hymnal data file
 	hymnalData.open(hymnalFileName);
 	if (!hymnalData)
@@ -42,7 +44,7 @@ int main(int argc, char* argv[])
 		cout << "Error: " << hymnalFileName << " not found." << endl;
 		return 1;
 	}
-	
+
 	// Now begin parsing the file
 	// Right now hymns aren't sorted by their numbers, but rather inserted
 	// in the order they are listed in the WHY (Wesley HYmnal) file. This
@@ -51,7 +53,7 @@ int main(int argc, char* argv[])
 	{
 		// Get each line of data from hymnal file. Right now, that
 		// should only be either a %%NEWPAGE code or a hymn file name.
-		
+
 		// Check for %%NEWPAGE code
 		if (lineOfData == "%%NEWPAGE")
 		{
@@ -60,22 +62,22 @@ int main(int argc, char* argv[])
 		else
 		{
 			// Must be a hymn file name
-			
+
 			// TODO: Check to see if hymn was aborted
 			int successful = processHymn(lineOfData, outputFileName);
 		}
 	}
-	
+
 	// Close hymnal input file, as we're done
 	hymnalData.close();
-		
+
 	return 0;
 }
 
 int processHymn(string hymnFileName, string outputFileName)
 {
 	string data;
-	
+
 	ifstream hymnData;
 	ofstream outputData;
 
@@ -98,8 +100,8 @@ int processHymn(string hymnFileName, string outputFileName)
 	int no = 0;
 	float scale = 0.00;
 	// End of declaring information fields
-	
-	
+
+
 	// Open hymn file passed in
 	hymnData.open(hymnFileName.c_str());
 	if (!hymnData)
@@ -139,7 +141,7 @@ int processHymn(string hymnFileName, string outputFileName)
 		{
 			char tempData[100];
 			hymnData.getline(tempData, 99, '\n');
-			
+
 			meter = tempData;
 			meter = meter.substr(0, meter.length() - 1);
 		}
@@ -147,7 +149,7 @@ int processHymn(string hymnFileName, string outputFileName)
 		{
 			char tempData[100];
 			hymnData.getline(tempData, 99, '\n');
-			
+
 			tune = tempData;
 			tune = tune.substr(0, tune.length() - 1);
 		}
@@ -207,19 +209,19 @@ int processHymn(string hymnFileName, string outputFileName)
 	// data tacked on. We should probably eventually check to
 	// see if the output file exists first.
 	outputData.open(outputFileName.c_str(), ios::out | ios::app);
-	
+
 	// Create format information such as scale and staff skip amounts
 	if (scale != 0) {
 		outputData << "%%scale " << scale << endl;
 	}
-	
+
 	if (staffSkip != "") {
 		outputData << "%%staffskip " << staffSkip << endl;
 	}
-	
+
 	// Put in the footer format; TODO: Add header info
 	outputData << "%%footer \" 		" << tune << "\\n		" << meter << "\"" << endl;
-	
+
 	// Output the information fields
 	outputData << "X: " << no << endl;
 	outputData << "T: " << title << endl;
@@ -230,7 +232,7 @@ int processHymn(string hymnFileName, string outputFileName)
 	// Send the actual ABC data
 	outputData << abcData << endl;
 	outputData << endl << endl;
-	
+
 	// Close output file
 	outputData.close();
 	return 0;
@@ -240,13 +242,20 @@ int insertNewPage(string outputFileName)
 {
 	// This function inserts a new page command
 	ofstream outputData;
-	
+
 	outputData.open(outputFileName.c_str(), ios::out | ios::app);
 	outputData << endl << endl;
 	outputData << "%%newpage" << endl;
 	outputData << endl << endl;
-	
+
 	outputData.close();
-	
+
 	return 0;
+}
+
+void usage()
+{
+	// Displays information on how to run the program.
+	cout << "USAGE: wesley FILE -o OUTPUTFILE" << endl;
+	cout << "Process the Wesley Hymnal FILE to create ABC file OUTPUTFILE." << endl;
 }
