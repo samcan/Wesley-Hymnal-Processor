@@ -25,6 +25,9 @@ int processHymn(string hymnFileName, string outputFileName);
 // file.
 int insertNewPage(string outputFileName);
 
+// GLOBAL VARIABLES
+bool quiet = false;
+
 // PROGRAM BEGINS HERE
 int main(int argc, char* argv[])
 {
@@ -45,6 +48,7 @@ int main(int argc, char* argv[])
 	po::options_description desc("Usage");
 	desc.add_options()
 		("version,v", "Print version")
+		("quiet", "Quiet output from program")
 		("help", "Show help message")
 		("input-file", po::value<string>(), "Wesley HYmnal input file")
 		("output-file,o", po::value<string>(), "ABC output file")
@@ -69,6 +73,12 @@ int main(int argc, char* argv[])
 		// Eventually print version string here
 		cout << "Wesley" << endl;
 		return EXIT_SUCCESS;
+	}
+
+	if (vm.count("quiet"))
+	{
+		// Quiet output
+		quiet = true;
 	}
 
 	if (vm.count("input-file"))
@@ -185,8 +195,11 @@ int processHymn(string hymnFileName, string outputFileName)
 	}
 
 	// Notify user that hymn was opened successfully.
-	cout << hymnFileName << " opened successfully." << endl;
-	cout << "Parsing hymn..." << endl;
+	if (!quiet)
+	{
+		cout << hymnFileName << " opened successfully." << endl;
+		cout << "Parsing hymn..." << endl;
+	}
 	hymnData >> data;
 	while (!hymnData.eof())
 	{
