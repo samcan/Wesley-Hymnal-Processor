@@ -231,38 +231,22 @@ int processHymn(string hymnFileName, string outputFileName)
 		}
 		else if (data == "%%TITLE")
 		{
-			//char tempData[99];
-			//hymnData.getline(tempData, 99, '\n');
-
 			getline(hymnData, title, '\n');
-			//title = tempData;
 			trim(title);
 		}
 		else if (data == "%%COMPOSER")
 		{
-			//char tempData[99];
-			//hymnData.getline(tempData, 99, '\n');
-
 			getline(hymnData, composer, '\n');
-			//composer = tempData;
 			trim(composer);
 		}
 		else if (data == "%%LYRICIST")
 		{
-			//char tempData[99];
-			//hymnData.getline(tempData, 99, '\n');
-
 			getline(hymnData, lyricist, '\n');
-			//lyricist = tempData;
 			trim(lyricist);
 		}
 		else if (data == "%%METER")
 		{
-			//char tempData[100];
-			//hymnData.getline(tempData, 99, '\n');
-
 			getline(hymnData, meter, '\n');
-			//meter = tempData;
 			// Check for DOS-style line ending and
 			// remove if found.
 			if (meter[meter.length() - 1] == '\r')
@@ -272,11 +256,7 @@ int processHymn(string hymnFileName, string outputFileName)
 		}
 		else if (data == "%%TUNE")
 		{
-			//char tempData[100];
-			//hymnData.getline(tempData, 99, '\n');
-
 			getline(hymnData, tune, '\n');
-			//tune = tempData;
 			// Check for DOS-style line ending and
 			// remove if found.
 			if (tune[tune.length() - 1] == '\r')
@@ -286,11 +266,7 @@ int processHymn(string hymnFileName, string outputFileName)
 		}
 		else if (data == "%%CATEGORY")
 		{
-			//char tempData[100];
-			//hymnData.getline(tempData, 99, '\n');
-
 			getline(hymnData, category, '\n');
-			//category = tempData;
 			trim(category);
 		}
 		else if (data == "%%SCALE")
@@ -316,11 +292,10 @@ int processHymn(string hymnFileName, string outputFileName)
 			// TODO: Fix this later!
 			while (!hymnData.eof())
 			{
-				// char line[300];
 				string line;
-				// hymnData.getline(line, 300, '\n');
 				getline(hymnData, line, '\n');
 				trim(line);
+
 				if (line != "") {
 					abcData = abcData + line + "\n";
 				}
