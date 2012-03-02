@@ -7,10 +7,12 @@
 #include <fstream>
 #include <boost/algorithm/string.hpp>
 #include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
 #include <iterator>
 
 using namespace std;
 using namespace boost::algorithm;
+using namespace boost::filesystem;
 namespace po = boost::program_options;
 
 #define EXIT_SUCCESS 0
@@ -101,9 +103,12 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		// No output file provided, so give it Out.abc
-		// for now
-		outputFileName = "Out.abc";
+		// No output filename provided, so give it
+		// the filename of the input file, but with
+		// an ABC extension
+		path tempPath(hymnalFileName);
+		outputFileName = basename(tempPath);
+		outputFileName = outputFileName + ".abc";
 	}
 
 	// Attempt to open hymnal data file
