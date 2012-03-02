@@ -315,8 +315,10 @@ int processHymn(string hymnFileName, string outputFileName)
 			// TODO: Fix this later!
 			while (!hymnData.eof())
 			{
-				char line[300];
-				hymnData.getline(line, 300, '\n');
+				// char line[300];
+				string line;
+				// hymnData.getline(line, 300, '\n');
+				getline(hymnData, line, '\n');
 				if (line != "") {
 					abcData = abcData + line + "\n";
 				}
