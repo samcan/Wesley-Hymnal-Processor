@@ -6,10 +6,10 @@
 %%METER 10.10 with Refrain
 %%CATEGORY Consecration
 %%SCRIPTURE 1Jn 4:19
-%%TIMESIGNATURE 4/4
 %%SCALE 0.75
 %%STAFFSKIP 1.62cm
 %%BEGIN
+M: 4/4
 L: 1/4 % default length
 K: Ab % key signature
 %%staves (S1V1 S1V2) | (S2V1 S2V2) 

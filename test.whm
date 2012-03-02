@@ -10,8 +10,8 @@
 %%STAFFSKIP 1.62cm
 %%CATEGORY
 %%SCRIPTURE
-%%TIMESIGNATURE 3/4
 %%BEGIN
+M: 3/4
 L: 1/8 % default length
 %%staves (S1V1 S1V2) | (S2V1 S2V2) 
 V: S1V1 clef=treble 
