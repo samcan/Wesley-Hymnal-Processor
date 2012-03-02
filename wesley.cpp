@@ -361,7 +361,6 @@ int processHymn(string hymnFileName, string outputFileName)
 
 	// Send the actual ABC data
 	outputData << abcData << endl;
-	outputData << endl << endl;
 
 	// Close output file
 	outputData.close();
@@ -376,9 +375,8 @@ int insertNewPage(string outputFileName)
 	outputData.open(outputFileName.c_str(), ios::out | ios::app);
 	if (outputData)
 	{
-		outputData << endl << endl;
 		outputData << "%%newpage" << endl;
-		outputData << endl << endl;
+		outputData << endl;
 
 		outputData.close();
 	}
