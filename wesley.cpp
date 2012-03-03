@@ -466,6 +466,7 @@ void sort(vector<categoryEntry> *categoryIndex)
 		}
 	}
 }
+
 void bubbleSort(vector<hymnEntry> *hymnList, int length)
 {
 	// Implements bubble sort for index
