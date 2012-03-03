@@ -43,7 +43,7 @@ int insertNewPage(string outputFileName);
 void sort(vector<categoryEntry> *categoryIndex);
 // Bubble sort algorithm
 void bubbleSort(vector<hymnEntry> *hymnList, int length);
-void bubbleSortCategory(vector<categoryEntry> *list, int length);
+void bubbleSort(vector<categoryEntry> *list, int length);
 
 // GLOBAL VARIABLES
 bool force = false;	// Force overwrite of existing output file
@@ -469,7 +469,7 @@ void sort(vector<categoryEntry> *indexToSort)
 	{
 		// First bubble sort the overall list (ex. categories,
 		// tunes, etc.)
-		bubbleSortCategory(indexToSort, indexToSort->size());
+		bubbleSort(indexToSort, indexToSort->size());
 
 		// Now loop through each entry to pass to
 		// bubble sort. This sorts the hymns within each
@@ -481,7 +481,7 @@ void sort(vector<categoryEntry> *indexToSort)
 	}
 }
 
-void bubbleSortCategory(vector<categoryEntry> *list, int length)
+void bubbleSort(vector<categoryEntry> *list, int length)
 {
 	// Implements bubble sort for broad index
 	categoryEntry temp;
