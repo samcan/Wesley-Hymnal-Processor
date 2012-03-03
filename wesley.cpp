@@ -460,9 +460,9 @@ void sort(vector<categoryEntry> *categoryIndex)
 	{
 		// Now loop through each category entry to pass to
 		// bubble sort
-		for (int i = 0; i <= (categoryIndex->size() - 1); i++)
+		for (int index = 0; index <= (categoryIndex->size() - 1); index++)
 		{
-			bubbleSort(&(categoryIndex->at(i).hymnList), categoryIndex->at(i).hymnList.size());
+			bubbleSort(&(categoryIndex->at(index).hymnList), categoryIndex->at(index).hymnList.size());
 		}
 	}
 }
