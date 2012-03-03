@@ -309,6 +309,14 @@ int processHymn(string hymnFileName, string outputFileName, vector<categoryEntry
 			getline(hymnData, category, '\n');
 			trim(category);
 
+			// Check for a blank category, and break out,
+			// because we don't want Wesley to add a blank
+			// category to the index.
+			if (category.empty() == true)
+			{
+				break;
+			}
+
 			// Process category for indexing
 			// First check to see if category already
 			// exists.
