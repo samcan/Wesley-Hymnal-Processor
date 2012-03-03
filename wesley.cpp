@@ -9,6 +9,7 @@
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
 #include <iterator>
+#include <vector>
 
 using namespace std;
 using namespace boost::algorithm;
@@ -18,12 +19,23 @@ namespace po = boost::program_options;
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 
+// FOR INDEX CREATION
+struct hymnEntry {
+	int no;
+	string title;
+};
+
+struct categoryEntry {
+	string title;
+	vector<hymnEntry> hymnList;
+};
+
 // FUNCTIONS
 // Check to see if given file exists.
 bool fileExists(const string fileName);
 // Open hymn file and process it, adding it to the output,
 // and then closing it.
-int processHymn(string hymnFileName, string outputFileName);
+int processHymn(string hymnFileName, string outputFileName, vector<categoryEntry> *categoryIndex);
 // Open output, insert page break, and then close output
 // file.
 int insertNewPage(string outputFileName);
@@ -111,6 +123,10 @@ int main(int argc, char* argv[])
 		outputFileName = outputFileName + ".abc";
 	}
 
+
+	// Create overall category index
+	vector<categoryEntry> categoryIndex;
+
 	// Attempt to open hymnal data file
 	hymnalData.open(hymnalFileName.c_str());
 	if (!hymnalData)
@@ -160,7 +176,7 @@ int main(int argc, char* argv[])
 		else
 		{
 			// Must be a hymn file name
-			if (processHymn(lineOfData, outputFileName) != EXIT_SUCCESS)
+			if (processHymn(lineOfData, outputFileName, &categoryIndex) != EXIT_SUCCESS)
 			{
 				// There was an error processing this hymn
 				return EXIT_FAILURE;
@@ -171,10 +187,27 @@ int main(int argc, char* argv[])
 	// Close hymnal input file, as we're done
 	hymnalData.close();
 
+	// Just to make sure I'm not crazy, let's print out a list of categories
+	// I'll comment this code out for now, since it's working...
+	/*
+	if (categoryIndex.empty() != true)
+	{
+		for (int i = 0; i <= categoryIndex.size() - 1; i++)
+		{
+			cout << categoryIndex.at(i).title << endl;
+			for (int j = 0; j <= categoryIndex.at(i).hymnList.size() - 1; j++)
+			{
+				cout << categoryIndex.at(i).hymnList.at(j).no << " ";
+				cout << categoryIndex.at(i).hymnList.at(j).title << endl;
+			}
+		}
+	}
+	*/
+
 	return EXIT_SUCCESS;
 }
 
-int processHymn(string hymnFileName, string outputFileName)
+int processHymn(string hymnFileName, string outputFileName, vector<categoryEntry> *categoryIndex)
 {
 	// Var for holding data pulled in from file
 	string data;
@@ -268,6 +301,45 @@ int processHymn(string hymnFileName, string outputFileName)
 		{
 			getline(hymnData, category, '\n');
 			trim(category);
+
+			// Process category for indexing
+			// First check to see if category already
+			// exists.
+			// TODO: Implement better find algorithm
+			int i = 0;
+			bool found = false;
+			if (categoryIndex->empty() == false)
+			{
+				for (i = 0; i <= (categoryIndex->size() - 1); i++)
+				{
+					if (categoryIndex->at(i).title == category)
+					{
+						found = true;
+						break;
+					}
+				}
+			}
+
+			if (found)
+			{
+				hymnEntry tempHymn;
+				tempHymn.no = no;
+				tempHymn.title = title;
+
+				categoryIndex->at(i).hymnList.push_back(tempHymn);
+			}
+			else
+			{
+				hymnEntry tempHymn;
+				tempHymn.no = no;
+				tempHymn.title = title;
+
+				categoryEntry tempCategory;
+				tempCategory.title = category;
+				tempCategory.hymnList.push_back(tempHymn);
+
+				categoryIndex->push_back(tempCategory);
+			}
 		}
 		else if (data == "%%SCALE")
 		{
