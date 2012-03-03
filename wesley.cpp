@@ -43,6 +43,7 @@ int insertNewPage(string outputFileName);
 void sort(vector<categoryEntry> *categoryIndex);
 // Bubble sort algorithm
 void bubbleSort(vector<hymnEntry> *hymnList, int length);
+void bubbleSortCategory(vector<categoryEntry> *list, int length);
 
 // GLOBAL VARIABLES
 bool force = false;	// Force overwrite of existing output file
@@ -460,24 +461,50 @@ bool fileExists(const string fileName)
 	return ifile;
 }
 
-void sort(vector<categoryEntry> *categoryIndex)
+void sort(vector<categoryEntry> *indexToSort)
 {
 	// First check to make sure vector is not empty (otherwise
 	// we'll get an error).
-	if (categoryIndex->empty() == false)
+	if (indexToSort->empty() == false)
 	{
-		// Now loop through each category entry to pass to
-		// bubble sort
-		for (int index = 0; index <= (categoryIndex->size() - 1); index++)
+		// First bubble sort the overall list (ex. categories,
+		// tunes, etc.)
+		bubbleSortCategory(indexToSort, indexToSort->size());
+
+		// Now loop through each entry to pass to
+		// bubble sort. This sorts the hymns within each
+		// index category.
+		for (int index = 0; index <= (indexToSort->size() - 1); index++)
 		{
-			bubbleSort(&(categoryIndex->at(index).hymnList), categoryIndex->at(index).hymnList.size());
+			bubbleSort(&(indexToSort->at(index).hymnList), indexToSort->at(index).hymnList.size());
 		}
 	}
 }
 
+void bubbleSortCategory(vector<categoryEntry> *list, int length)
+{
+	// Implements bubble sort for broad index
+	categoryEntry temp;
+	int iteration;
+	int index;
+
+        for (iteration = 1; iteration < length; iteration++)
+        {
+                for (index = 0; index < length - iteration; index++)
+                {
+                        if (list->at(index).title.compare(list->at(index + 1).title) > 0)
+                        {
+                                temp = list->at(index);
+                                list->at(index) = list->at(index + 1);
+                                list->at(index + 1) = temp;
+                        }
+                }
+        }
+}
+
 void bubbleSort(vector<hymnEntry> *hymnList, int length)
 {
-	// Implements bubble sort for index
+	// Implements bubble sort for hymn list
 	hymnEntry temp;
 	int iteration;
 	int index;
