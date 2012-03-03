@@ -35,12 +35,13 @@ struct categoryEntry {
 bool fileExists(const string fileName);
 // Open hymn file and process it, adding it to the output,
 // and then closing it.
-int processHymn(string hymnFileName, string outputFileName, vector<categoryEntry> *categoryIndex);
+int processHymn(string hymnFileName, string outputFileName, vector<hymnEntry> *hymnIndex, vector<categoryEntry> *categoryIndex);
 // Open output, insert page break, and then close output
 // file.
 int insertNewPage(string outputFileName);
 // Sort index
-void sort(vector<categoryEntry> *categoryIndex);
+void sort(vector<hymnEntry> *indexToSort);
+void sort(vector<categoryEntry> *indexToSort);
 // Bubble sort algorithm
 void bubbleSort(vector<hymnEntry> *hymnList, int length);
 void bubbleSort(vector<categoryEntry> *list, int length);
@@ -129,6 +130,9 @@ int main(int argc, char* argv[])
 	}
 
 
+	// Create general index
+	vector<hymnEntry> hymnIndex;
+
 	// Create overall category index
 	vector<categoryEntry> categoryIndex;
 
@@ -181,7 +185,7 @@ int main(int argc, char* argv[])
 		else
 		{
 			// Must be a hymn file name
-			if (processHymn(lineOfData, outputFileName, &categoryIndex) != EXIT_SUCCESS)
+			if (processHymn(lineOfData, outputFileName, &hymnIndex, &categoryIndex) != EXIT_SUCCESS)
 			{
 				// There was an error processing this hymn
 				return EXIT_FAILURE;
@@ -191,6 +195,9 @@ int main(int argc, char* argv[])
 
 	// Close hymnal input file, as we're done
 	hymnalData.close();
+
+	// Sort the general index
+	sort(&hymnIndex);
 
 	// Sort the category index
 	sort(&categoryIndex);
@@ -212,10 +219,19 @@ int main(int argc, char* argv[])
 	}
 
 
+	cout << endl << endl;
+	if (hymnIndex.empty() != true)
+	{
+		for (int index = 0; index <= hymnIndex.size() - 1; index++)
+		{
+			cout << hymnIndex.at(index).title << " ";
+			cout << hymnIndex.at(index).no << endl;
+		}
+	}
 	return EXIT_SUCCESS;
 }
 
-int processHymn(string hymnFileName, string outputFileName, vector<categoryEntry> *categoryIndex)
+int processHymn(string hymnFileName, string outputFileName, vector<hymnEntry> *hymnIndex, vector<categoryEntry> *categoryIndex)
 {
 	// Var for holding data pulled in from file
 	string data;
@@ -274,6 +290,12 @@ int processHymn(string hymnFileName, string outputFileName, vector<categoryEntry
 		{
 			getline(hymnData, title, '\n');
 			trim(title);
+
+			hymnEntry tempHymn;
+			tempHymn.no = no;
+			tempHymn.title = title;
+
+			hymnIndex->push_back(tempHymn);
 		}
 		else if (data == "%%COMPOSER")
 		{
@@ -459,6 +481,17 @@ bool fileExists(const string fileName)
 	// return false.
 	ifstream ifile(fileName.c_str());
 	return ifile;
+}
+
+void sort(vector<hymnEntry> *indexToSort)
+{
+	// First check to make sure vector is not empty (otherwise
+	// we'll get an error).
+	if (indexToSort->empty() == false)
+	{
+		// Bubble sort the list
+		bubbleSort(indexToSort, indexToSort->size());
+	}
 }
 
 void sort(vector<categoryEntry> *indexToSort)
