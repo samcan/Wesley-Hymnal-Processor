@@ -39,6 +39,10 @@ int processHymn(string hymnFileName, string outputFileName, vector<categoryEntry
 // Open output, insert page break, and then close output
 // file.
 int insertNewPage(string outputFileName);
+// Sort index
+void sort(vector<categoryEntry> *categoryIndex);
+// Bubble sort algorithm
+void bubbleSort(vector<hymnEntry> *hymnList, int length);
 
 // GLOBAL VARIABLES
 bool force = false;	// Force overwrite of existing output file
@@ -187,9 +191,12 @@ int main(int argc, char* argv[])
 	// Close hymnal input file, as we're done
 	hymnalData.close();
 
+	// Sort the category index
+	sort(&categoryIndex);
+
 	// Just to make sure I'm not crazy, let's print out a list of categories
 	// I'll comment this code out for now, since it's working...
-	/*
+
 	if (categoryIndex.empty() != true)
 	{
 		for (int i = 0; i <= categoryIndex.size() - 1; i++)
@@ -202,7 +209,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	*/
+
 
 	return EXIT_SUCCESS;
 }
@@ -443,4 +450,39 @@ bool fileExists(const string fileName)
 	// return false.
 	ifstream ifile(fileName.c_str());
 	return ifile;
+}
+
+void sort(vector<categoryEntry> *categoryIndex)
+{
+	// First check to make sure vector is not empty (otherwise
+	// we'll get an error).
+	if (categoryIndex->empty() == false)
+	{
+		// Now loop through each category entry to pass to
+		// bubble sort
+		for (int i = 0; i <= (categoryIndex->size() - 1); i++)
+		{
+			bubbleSort(&(categoryIndex->at(i).hymnList), categoryIndex->at(i).hymnList.size());
+		}
+	}
+}
+void bubbleSort(vector<hymnEntry> *hymnList, int length)
+{
+	// Implements bubble sort for index
+	hymnEntry temp;
+	int iteration;
+	int index;
+
+	for (iteration = 1; iteration < length; iteration++)
+	{
+		for (index = 0; index < length - iteration; index++)
+		{
+			if (hymnList->at(index).title.compare(hymnList->at(index + 1).title) > 0)
+			{
+				temp = hymnList->at(index);
+				hymnList->at(index) = hymnList->at(index + 1);
+				hymnList->at(index + 1) = temp;
+			}
+		}
+	}
 }
