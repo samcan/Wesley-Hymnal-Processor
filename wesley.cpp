@@ -453,7 +453,7 @@ int processHymn(const string hymnFileName, const string outputFileName, vector<h
 	}
 
 	if (staffSkip != "") {
-		outputData << "%%staffskip " << staffSkip << endl;
+		outputData << "%%staffsep " << staffSkip << endl;
 	}
 
 	outputData << "%%titletrim " << (titleTrim ? "true" : "false") << endl;
