@@ -35,7 +35,7 @@ struct categoryEntry {
 bool fileExists(const string fileName);
 // Open hymn file and process it, adding it to the output,
 // and then closing it.
-int processHymn(string hymnFileName, string outputFileName, vector<hymnEntry> *hymnIndex, vector<categoryEntry> *categoryIndex);
+int processHymn(const string hymnFileName, const string outputFileName, vector<hymnEntry> *hymnIndex, vector<categoryEntry> *categoryIndex);
 // Open output, insert page break, and then close output
 // file.
 int insertNewPage(string outputFileName);
@@ -231,7 +231,7 @@ int main(int argc, char* argv[])
 	return EXIT_SUCCESS;
 }
 
-int processHymn(string hymnFileName, string outputFileName, vector<hymnEntry> *hymnIndex, vector<categoryEntry> *categoryIndex)
+int processHymn(const string hymnFileName, const string outputFileName, vector<hymnEntry> *hymnIndex, vector<categoryEntry> *categoryIndex)
 {
 	// Var for holding data pulled in from file
 	string data;
