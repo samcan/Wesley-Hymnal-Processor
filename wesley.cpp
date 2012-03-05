@@ -39,6 +39,7 @@ int processHymn(const string hymnFileName, const string outputFileName, vector<h
 // Open output, insert page break, and then close output
 // file.
 int insertNewPage(string outputFileName);
+int insertLine(const string line, const string outputFileName);
 // Sort index
 void sort(vector<hymnEntry> *indexToSort);
 void sort(vector<categoryEntry> *indexToSort);
@@ -170,7 +171,10 @@ int main(int argc, char* argv[])
 	while(getline(hymnalData, lineOfData))
 	{
 		// Get each line of data from hymnal file. Right now, that
-		// should only be either a %%NEWPAGE code or a hymn file name.
+		// should be a %%NEWPAGE code or a hymn file name. Other
+		// stuff will just get copied into the file. This will
+		// allow for the user to put definitions in the final file
+		// (such as for introduction marks).
 
 		// Check for %%NEWPAGE code
 		if (lineOfData == "%%NEWPAGE")
@@ -180,6 +184,16 @@ int main(int argc, char* argv[])
 				// Returned with error condition
 				cout << "Error: Unable to open " << outputFileName << endl;
 				return EXIT_FAILURE;
+			}
+		}
+		else if (lineOfData.substr(0, 2) == "%%")
+		{
+			// Must be definition, copy into output file
+			if (insertLine(lineOfData, outputFileName) != EXIT_SUCCESS)
+			{
+                                // Returned with error condition
+                                cout << "Error: Unable to open " << outputFileName << endl;
+                                return EXIT_FAILURE;
 			}
 		}
 		else
@@ -499,6 +513,27 @@ int insertNewPage(string outputFileName)
 		return EXIT_FAILURE;
 	}
 	return EXIT_SUCCESS;
+}
+
+int insertLine(const string line, const string outputFileName)
+{
+        // This function inserts a line of data provided into
+	// the output file.
+        ofstream outputData;
+
+        outputData.open(outputFileName.c_str(), ios::out | ios::app);
+        if (outputData)
+        {
+                outputData << line << endl;
+
+                outputData.close();
+        }
+        else {
+                // File not successfully opened
+                return EXIT_FAILURE;
+        }
+        return EXIT_SUCCESS;
+
 }
 
 bool fileExists(const string fileName)
