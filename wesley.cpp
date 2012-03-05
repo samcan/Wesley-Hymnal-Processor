@@ -233,6 +233,10 @@ int main(int argc, char* argv[])
 
 int processHymn(const string hymnFileName, const string outputFileName, vector<hymnEntry> *hymnIndex, vector<categoryEntry> *categoryIndex)
 {
+	// Enumeration for which side of the page
+	// the hymn is on, for the hymn number.
+	enum sideOfPage {SIDE_LEFT, SIDE_RIGHT};
+
 	// Var for holding data pulled in from file
 	string data;
 
@@ -258,6 +262,10 @@ int processHymn(const string hymnFileName, const string outputFileName, vector<h
 	int no = 0;
 	float scale = 0.00;
 	bool titleTrim = true;
+
+	// Var for storing which side of the page
+	// a hymn is on
+	int side = SIDE_RIGHT;
 	// End of declaring information fields
 
 
@@ -392,6 +400,18 @@ int processHymn(const string hymnFileName, const string outputFileName, vector<h
 			// Disable title trim
 			titleTrim = false;
 		}
+		else if (data == "%%LEFT")
+		{
+			// Hymn number should be on the
+			// left side.
+			side = SIDE_LEFT;
+		}
+		else if (data == "%%RIGHT")
+		{
+			// Hymn number should be on the
+			// right side.
+			side = SIDE_RIGHT;
+		}
 		else if (data == "%%BEGIN")
 		{
 			// This was a little finicky. I wasn't sure how to abort
@@ -438,7 +458,15 @@ int processHymn(const string hymnFileName, const string outputFileName, vector<h
 
 	outputData << "%%titletrim " << (titleTrim ? "true" : "false") << endl;
 
-	// Put in the footer format; TODO: Add header info
+	// Put in the header and footer info
+	if (side == SIDE_LEFT)
+	{
+		outputData << "%%titleformat X-1 T0, H-1 C1" << endl;
+	}
+	else
+	{
+		outputData << "%%titleformat T0 X1, H-1 C1" << endl;
+	}
 	outputData << "%%footer \" 		" << tune << "\\n		" << meter << "\"" << endl;
 
 	// Output the information fields
