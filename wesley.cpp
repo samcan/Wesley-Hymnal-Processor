@@ -68,27 +68,34 @@ int main(int argc, char* argv[])
 	// Parse command line arguments
 	// TODO: Write error handling code for when
 	// output file option is given without file name
-	po::options_description desc("Usage");
-	desc.add_options()
-		("version,v", "Print version")
-		("force,f", "Force overwrite of output file if existing")
-		("quiet", "Quiet output from program")
-		("help", "Show help message")
+	po::options_description usage("Usage");
+	usage.add_options()
 		("input-file", po::value<string>(), "Wesley HYmnal input file")
 		("output-file,o", po::value<string>(), "ABC output file")
+		("force,f", "Force overwrite of output file if existing")
+		("quiet", "Quiet output from program")
 	;
+
+	po::options_description general("General");
+	general.add_options()
+		("help", "Show help message")
+		("version,v", "Print version")
+	;
+
+	po::options_description visible("");
+	visible.add(general).add(usage);
 
 	po::positional_options_description p;
 	p.add("input-file", 1);
 
 	po::variables_map vm;
-	po::store(po::command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
+	po::store(po::command_line_parser(argc, argv).options(visible).positional(p).run(), vm);
 	po::notify(vm);
 
 	if (vm.count("help") || argc <= 1)
 	{
 		// Display usage options
-		cout << desc << endl;
+		cout << visible << endl;
 		return EXIT_SUCCESS;
 	}
 
