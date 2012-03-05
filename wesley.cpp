@@ -340,52 +340,50 @@ int processHymn(const string hymnFileName, const string outputFileName, vector<h
 			getline(hymnData, category, '\n');
 			trim(category);
 
-			// Check for a blank category, and break out,
-			// because we don't want Wesley to add a blank
-			// category to the index.
-			if (category.empty() == true)
+			// Check for a blank category
+			if (category.empty() == false)
 			{
-				break;
+                        	// Process category for indexing
+                	        // First check to see if category already
+        	                // exists.
+	                        // TODO: Implement better find algorithm
+                	        int i = 0;
+        	                bool found = false;
+	                        if (categoryIndex->empty() == false)
+                        	{
+                	                for (i = 0; i <= (categoryIndex->size() - 1); i++)
+        	                        {
+	                                        if (categoryIndex->at(i).title == category)
+						{
+                                	                found = true;
+                        	                        break;
+                	                        }
+        	                        }
+	                        }
+
+                        	if (found)
+                        	{
+                	                hymnEntry tempHymn;
+        	                        tempHymn.no = no;
+	                                tempHymn.title = title;
+
+        	                        categoryIndex->at(i).hymnList.push_back(tempHymn);
+	                        }
+                        	else
+                	        {
+        	                        hymnEntry tempHymn;
+	                                tempHymn.no = no;
+                        	        tempHymn.title = title;
+
+                	                categoryEntry tempCategory;
+        	                        tempCategory.title = category;
+	                                tempCategory.hymnList.push_back(tempHymn);
+
+        	                        categoryIndex->push_back(tempCategory);
+	                        }
+
 			}
 
-			// Process category for indexing
-			// First check to see if category already
-			// exists.
-			// TODO: Implement better find algorithm
-			int i = 0;
-			bool found = false;
-			if (categoryIndex->empty() == false)
-			{
-				for (i = 0; i <= (categoryIndex->size() - 1); i++)
-				{
-					if (categoryIndex->at(i).title == category)
-					{
-						found = true;
-						break;
-					}
-				}
-			}
-
-			if (found)
-			{
-				hymnEntry tempHymn;
-				tempHymn.no = no;
-				tempHymn.title = title;
-
-				categoryIndex->at(i).hymnList.push_back(tempHymn);
-			}
-			else
-			{
-				hymnEntry tempHymn;
-				tempHymn.no = no;
-				tempHymn.title = title;
-
-				categoryEntry tempCategory;
-				tempCategory.title = category;
-				tempCategory.hymnList.push_back(tempHymn);
-
-				categoryIndex->push_back(tempCategory);
-			}
 		}
 		else if (data == "%%SCALE")
 		{
